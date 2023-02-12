@@ -15,18 +15,8 @@ Drive::Drive(DcMotor fl, DcMotor fr, DcMotor bl, DcMotor br){
 }
 
 void Drive::forward(int power){
-    int power = justifyTo255(power);
-    if(power > 0){
-        frontLeft.setDirection(DIRECTIONS.FORWARD);
-        frontRight.setDirection(DIRECTIONS.FORWARD);
-        backLeft.setDirection(DIRECTIONS.FORWARD);
-        backRight.setDirection(DIRECTIONS.FORWARD);
-    }else if(power < 0){
-        frontLeft.setDirection(DIRECTIONS.REVERSE);
-        frontRight.setDirection(DIRECTIONS.REVERSE);
-        backLeft.setDirection(DIRECTIONS.REVERSE);
-        backRight.setDirection(DIRECTIONS.REVERSE);
-    }else{
+    power = justifyTo255(power);
+    if(!justifyDirection(power)){
         stop();
         return;
     }
@@ -45,8 +35,11 @@ void Drive::stop(){
 }
 
 void Drive::turnLeft(int power){
-    int power = justifyTo255(power);
-
+    power = justifyTo255(power);
+    if(!justifyDirection(power)){
+        stop();
+        return;
+    }
     frontLeft.setPower(0);
     frontRight.setPower(power);
     backLeft.setPower(0);
@@ -54,8 +47,11 @@ void Drive::turnLeft(int power){
 }
 
 void Drive::turnRight(int power){
-    int power = justifyTo255(power);
-
+    power = justifyTo255(power);
+    if(!justifyDirection(power)){
+        stop();
+        return;
+    }
     frontLeft.setPower(power);
     frontRight.setPower(0);
     backLeft.setPower(power);
@@ -63,8 +59,11 @@ void Drive::turnRight(int power){
 }
 
 void Drive::sharpRight(int power){
-    int power = justifyTo255(power);
-
+    power = justifyTo255(power);
+    if(!justifyDirection(power)){
+        stop();
+        return;
+    }
     frontLeft.setPower(power);
     frontRight.setPower(-power);
     backLeft.setPower(power);
@@ -72,14 +71,14 @@ void Drive::sharpRight(int power){
 }
 
 void Drive::sharpLeft(int power){
-    int power = justifyTo255(power);
-
+    power = justifyTo255(power);
+    if(!justifyDirection(power)){
+        stop();
+        return;
+    }
     frontLeft.setPower(-power);
     frontRight.setPower(power);
     backLeft.setPower(-power);
     backRight.setPower(power);
 }
 
-int justifyTo255(int val){
-    return map(val, 0, 100, 0, 255);
-}

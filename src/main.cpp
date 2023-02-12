@@ -13,12 +13,19 @@ void setup() {
   Serial.begin(9600);
   motor = DcMotor(enA, in1, in2);
 }
-int tick = 0;
+
 void loop() {
-  motor.setPower(255);
-  
-  motor.setDirection(DIRECTIONS.REVERSE);
-  delay(2000);
   motor.setDirection(DIRECTIONS.FORWARD);
-  delay(2000);
+  int currentPower = 255;
+  for(int i; currentPower > -1; currentPower--){
+    Serial.println(currentPower);
+    motor.setPower(currentPower);
+    delay(10);
+  }
+  for(int i; currentPower < 256; currentPower++){
+    Serial.println(currentPower);
+    motor.setPower(currentPower);
+    delay(10);
+  }
+  
 }

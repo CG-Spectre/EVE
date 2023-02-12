@@ -13,17 +13,34 @@ DcMotor::DcMotor(){
     
 }
 void DcMotor::setPower(int pow){
-    analogWrite(enA, pow);
-    
+    if(pow >= 0){
+        setDirection(currentDirection);
+        analogWrite(enA, pow);
+    }else{
+        setDirection((currentDirection == DIRECTIONS.FORWARD) ? DIRECTIONS.REVERSE : DIRECTIONS.FORWARD);
+        analogWrite(enA, pow);
+    }
 }
 
 void DcMotor::setDirection(int direction){
-    if(direction == DIRECTIONS.FORWARD){
-        digitalWrite(in1, HIGH);
-        digitalWrite(in2, LOW);
+    if(isInverted){
+        if(direction == DIRECTIONS.FORWARD){
+            digitalWrite(in1, LOW);
+            digitalWrite(in2, HIGH);
+        }
+        if(direction == DIRECTIONS.REVERSE){
+            digitalWrite(in1, HIGH);
+            digitalWrite(in2, LOW);
+        }
+    }else{
+        if(direction == DIRECTIONS.FORWARD){
+            digitalWrite(in1, HIGH);
+            digitalWrite(in2, LOW);
+        }
+        if(direction == DIRECTIONS.REVERSE){
+            digitalWrite(in1, LOW);
+            digitalWrite(in2, HIGH);
+        }
     }
-    if(direction == DIRECTIONS.REVERSE){
-        digitalWrite(in1, LOW);
-        digitalWrite(in2, HIGH);
-    }
+    currentDirection = direction;
 }
