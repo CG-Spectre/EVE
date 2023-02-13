@@ -42,6 +42,12 @@ class Drive {
                 return false;
             }
         }
+        int forwardFor(int power, unsigned int milis);
+        int backwardFor(int power, unsigned int milis);
+        int rightFor(int power, unsigned int milis);
+        int leftFor(int power, unsigned int milis);
+        int sharpLeftFor(int power, unsigned int milis);
+        int sharpRightFor(int power, unsigned int milis);
 };
 
 #endif

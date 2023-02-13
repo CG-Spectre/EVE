@@ -1,12 +1,16 @@
 #include "Drive.h"
 #include <Arduino.h>
 #include "DcMotor.h"
+#include <pt.h>
+
+static struct pt pt1;
 
 Drive::Drive(){
     ready = false;
 }
 
 Drive::Drive(DcMotor fl, DcMotor fr, DcMotor bl, DcMotor br){
+    PT_INIT(&pt1);
     frontLeft = fl;
     frontRight = fr;
     backLeft = bl;
@@ -82,3 +86,63 @@ void Drive::sharpLeft(int power){
     backRight.setPower(power);
 }
 
+int Drive::forwardFor(int power, unsigned int milis){
+    struct pt *pta;
+    pta = &pt1;
+    PT_BEGIN(&pt1);
+    int recorded = millis();
+    while(millis() - recorded < milis){
+        forward(power);
+    }
+    stop();
+    PT_END(&pt1);
+}
+
+int Drive::backwardFor(int power, unsigned int milis){
+    forwardFor(-power, milis);
+}
+
+int Drive::rightFor(int power, unsigned int milis){
+    struct pt *pta;
+    pta = &pt1;
+    PT_BEGIN(&pt1);
+    int recorded = millis();
+    while(millis() - recorded < milis){
+        turnRight(power);
+    }
+    stop();
+    PT_END(&pt1);
+}
+int Drive::leftFor(int power, unsigned int milis){
+    struct pt *pta;
+    pta = &pt1;
+    PT_BEGIN(&pt1);
+    int recorded = millis();
+    while(millis() - recorded < milis){
+        turnLeft(power);
+    }
+    stop();
+    PT_END(&pt1);
+}
+int Drive::sharpRightFor(int power, unsigned int milis){
+    struct pt *pta;
+    pta = &pt1;
+    PT_BEGIN(&pt1);
+    int recorded = millis();
+    while(millis() - recorded < milis){
+        sharpRight(power);
+    }
+    stop();
+    PT_END(&pt1);
+}
+int Drive::sharpLeftFor(int power, unsigned int milis){
+    struct pt *pta;
+    pta = &pt1;
+    PT_BEGIN(&pt1);
+    int recorded = millis();
+    while(millis() - recorded < milis){
+        sharpLeft(power);
+    }
+    stop();
+    PT_END(&pt1);
+}

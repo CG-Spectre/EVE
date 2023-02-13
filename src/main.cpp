@@ -15,17 +15,6 @@ void setup() {
 }
 
 void loop() {
-  motor.setDirection(DIRECTIONS.FORWARD);
-  int currentPower = 255;
-  for(int i; currentPower > -1; currentPower--){
-    Serial.println(currentPower);
-    motor.setPower(currentPower);
-    delay(10);
-  }
-  for(int i; currentPower < 256; currentPower++){
-    Serial.println(currentPower);
-    motor.setPower(currentPower);
-    delay(10);
-  }
+  motor.setPower(255);
   
 }
